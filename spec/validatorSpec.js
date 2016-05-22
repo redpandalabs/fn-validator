@@ -13,6 +13,7 @@ describe('Validator Spec', function() {
   var any = validator.any;
   var all = validator.all;
   var between = validator.between;
+  var enums = validator.enum;
 
   describe('Validating basic data types', function() {
 
@@ -422,6 +423,38 @@ describe('Validator Spec', function() {
 
       expect(validator.after(date)).toBe(result);
       expect(validator.between).toHaveBeenCalledWith(date.getTime(), Infinity, validator._getTime);
+    });
+
+  });
+
+  describe("enum validator", function(){
+
+    it("should check if the values passed as array argument", function(){
+      expect(function(){
+        enums(1,2);
+      }).toThrowError();
+    });
+
+    it("should accept only set of defined values", function(){
+
+      var schema = object({
+        age: enums([10, 20, 30])
+      });
+
+      var invalidData = {
+        age: 15
+      };
+
+      [10, 20, 30].forEach(function(age){
+        expect(validator.validate(schema, {
+          age: age
+        })).toEqual({});
+      });
+
+      expect(validator.validate(schema, invalidData)).toEqual({
+        error_age: "allowed values are [10,20,30]"
+      });
+
     });
 
   });

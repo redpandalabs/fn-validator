@@ -45,9 +45,8 @@ validator.optional = function(func) {
 };
 
 validator.any = function(arr, msg) {
-  if(!(arr instanceof Array)) {
+  if(!(arr instanceof Array))
     throw new Error("Any validator accepts an array of validators");
-  }
   return function(key, value, obj) {
     for (var i = 0; i < arr.length; i++) {
       var validOrMessage = arr[i].call(null, key, value, obj);
@@ -59,9 +58,8 @@ validator.any = function(arr, msg) {
 };
 
 validator.all = function(arr, msg) {
-  if(!(arr instanceof Array)) {
+  if(!(arr instanceof Array))
     throw new Error("Any validator accepts an array of validators");
-  }
   return function(key, value, obj) {
     for (var i = 0; i < arr.length; i++) {
       var validOrMessage = arr[i].call(null, key, value, obj);
@@ -98,6 +96,14 @@ validator.before = function(date) {
 
 validator.after = function(date) {
   return validator.between(new Date(date).getTime(), Infinity, validator._getTime);
+};
+
+validator.enum = function(allowedValues) {
+  if(!(allowedValues instanceof Array))
+    throw new Error("enum validator accepts an array of allowed values");
+  return function(key, value) {
+    return allowedValues.indexOf(value) >= 0 ? true : "allowed values are [" + allowedValues + "]";
+  };
 };
 
 validator.object = function(schemaObj) {
