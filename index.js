@@ -3,13 +3,17 @@
 
 var validator = {};
 
-function identity(value) {
+validator._identity = function identity(value) {
   return value;
-}
+};
 
-function getLength(value) {
+validator._getLength =  function getLength(value) {
   return value.length;
-}
+};
+
+validator._getTime = function getTime(date) {
+  return date.getTime();
+};
 
 // Validation functions
 ['string', 'number', 'boolean'].forEach(function(dataType) {
@@ -70,22 +74,30 @@ validator.all = function(arr, msg) {
 validator.between = function(lower, upper, property) {
   //TODO check if lower and upper are numbers and throw exception if not
 
-  property = property || identity;
+  property = property || validator._identity;
   return function(key, value, obj) {
     return property(value, obj) >= lower && property(value, obj) <= upper ? true : "should be between "+ lower + " and " + upper;
   };
 };
 
 validator.length = function(length) {
-  return validator.between(length, length, getLength);
+  return validator.between(length, length, validator._getLength);
 };
 
 validator.minLength = function(length) {
-  return validator.between(length, Infinity, getLength);
+  return validator.between(length, Infinity, validator._getLength);
 };
 
 validator.maxLength = function(length) {
-  return validator.between(0, length, getLength);
+  return validator.between(0, length, validator._getLength);
+};
+
+validator.before = function(date) {
+  return validator.between(0, new Date(date).getTime(), validator._getTime);
+};
+
+validator.after = function(date) {
+  return validator.between(new Date(date).getTime(), Infinity, validator._getTime);
 };
 
 validator.object = function(schemaObj) {

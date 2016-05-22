@@ -385,7 +385,7 @@ describe('Validator Spec', function() {
       spyOn(validator, "between").and.returnValue(result);
 
       expect(validator.length(10)).toBe(result);
-      expect(validator.between).toHaveBeenCalledWith(10, 10, jasmine.any(Function));
+      expect(validator.between).toHaveBeenCalledWith(10, 10, validator._getLength);
     });
 
     it("should check minLength", function() {
@@ -393,7 +393,7 @@ describe('Validator Spec', function() {
       spyOn(validator, "between").and.returnValue(result);
 
       expect(validator.minLength(10)).toBe(result);
-      expect(validator.between).toHaveBeenCalledWith(10, Infinity, jasmine.any(Function));
+      expect(validator.between).toHaveBeenCalledWith(10, Infinity, validator._getLength);
     });
 
     it("should check maxLength", function() {
@@ -401,7 +401,27 @@ describe('Validator Spec', function() {
       spyOn(validator, "between").and.returnValue(result);
 
       expect(validator.maxLength(10)).toBe(result);
-      expect(validator.between).toHaveBeenCalledWith(0, 10, jasmine.any(Function));
+      expect(validator.between).toHaveBeenCalledWith(0, 10, validator._getLength);
+    });
+
+  });
+
+  describe("Date validators", function(){
+
+    it("should check if date is before the given date", function(){
+      var result = {}, date = new Date();
+      spyOn(validator, "between").and.returnValue(result);
+
+      expect(validator.before(date)).toBe(result);
+      expect(validator.between).toHaveBeenCalledWith(0, date.getTime(), validator._getTime);
+    });
+
+    it("should check if date is after the given date", function(){
+      var result = {}, date = new Date();
+      spyOn(validator, "between").and.returnValue(result);
+
+      expect(validator.after(date)).toBe(result);
+      expect(validator.between).toHaveBeenCalledWith(date.getTime(), Infinity, validator._getTime);
     });
 
   });
