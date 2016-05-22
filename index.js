@@ -66,7 +66,10 @@ validator.object = function(schemaObj) {
       return {
         error: "must be an object"
       };
-    if(Object.keys(schemaObj).length !== Object.keys(objValue).length)
+    var keys = Object.keys(objValue);
+    if(keys.length > 0 && !keys.every(function(key){
+          return key in schemaObj;
+        }))
       return {
         error: "Allowed properties are [" + Object.keys(schemaObj) + "]"
       };

@@ -116,11 +116,12 @@ describe('Validator Spec', function() {
 
     it('should allow absence of value', function() {
       var schema = object({
+        age : number,
         salary: optional(number)
       });
 
       var data = {
-        name: 'Tom'
+        age: 10
       };
 
       expect(validator.validate(schema, data)).toEqual({});
@@ -160,7 +161,7 @@ describe('Validator Spec', function() {
   });
 
 
-  it("should validate the JSON schema to match exact number of attributes", function(){
+  it("should validate that JSON object contains attributes which are mentioned in schemaObj", function(){
 
     var schema = object({
       salary: number
