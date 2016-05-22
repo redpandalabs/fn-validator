@@ -4,7 +4,7 @@
   "description": "Extendable and Isomorphic functional schema validator for browser and Node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/RedPandaInnovationLabs/fn-validator/issues"
   },
-  "homepage": "https://github.com/RedPandaInnovationLabs/fn-validator#readme"
+  "homepage": "https://github.com/RedPandaInnovationLabs/fn-validator#readme",
+  "devDependencies": {
+    "jasmine": "2.4.1"
+  }
 }

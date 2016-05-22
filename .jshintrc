@@ -1,0 +1,26 @@
+{
+  "globalstrict"  : true,
+  "freeze"        : true,
+  "undef"         : true,
+  "unused"        : true,
+  "noarg"         : true,
+  "maxdepth"      : 2,
+  "maxstatements" : 10,
+  "globals" : {
+    "require" : true,
+    "module" : true,
+    "jasmine" : true,
+    "describe" : true,
+    "spyOn" : true,
+    "it" : true,
+    "beforeEach" : true,
+    "beforeAll" : true,
+    "afterAll" : true,
+    "expect" : true,
+    "console" : true,
+    "setTimeout" : true,
+    "Buffer" : true,
+    "process" : true,
+    "__dirname" : true
+  }
+}
