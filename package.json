@@ -1,6 +1,6 @@
 {
   "name": "fn-validator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extendable and Isomorphic functional schema validator for browser and Node.js",
   "main": "index.js",
   "scripts": {
