@@ -3,6 +3,14 @@
 
 var validator = {};
 
+function identity(value) {
+  return value;
+}
+
+function getLength(value) {
+  return value.length;
+}
+
 // Validation functions
 ['string', 'number', 'boolean'].forEach(function(dataType) {
   validator[dataType] = function(key, value) {
@@ -59,6 +67,27 @@ validator.all = function(arr, msg) {
   };
 };
 
+validator.between = function(lower, upper, property) {
+  //TODO check if lower and upper are numbers and throw exception if not
+
+  property = property || identity;
+  return function(key, value, obj) {
+    return property(value, obj) >= lower && property(value, obj) <= upper ? true : "should be between "+ lower + " and " + upper;
+  };
+};
+
+validator.length = function(length) {
+  return validator.between(length, length, getLength);
+};
+
+validator.minLength = function(length) {
+  return validator.between(length, Infinity, getLength);
+};
+
+validator.maxLength = function(length) {
+  return validator.between(0, length, getLength);
+};
+
 validator.object = function(schemaObj) {
   return function(objKey, objValue) {
     var result = {};
@@ -84,22 +113,6 @@ validator.object = function(schemaObj) {
     return result;
   };
 };
-
-// validator.array = function(func){
-//   if (typeof func !== 'function')
-//     throw new Error("Array validator accepts a validator function");
-//   return function(key, values){
-//     if(!Array.isArray(values)) {
-//       this[`error_${key}`] = "must be an Array";
-//       return;
-//     }
-//     var context = {};
-//     values.forEach((value) => {
-//       func.call(context, key, value);
-//     });
-//     this[`error_${key}`]=context[`error_${key}`];
-//   };
-// };
 
 // Validation helper
 validator.validate = function(schema, input) {

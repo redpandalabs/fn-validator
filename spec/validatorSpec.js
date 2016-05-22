@@ -12,6 +12,7 @@ describe('Validator Spec', function() {
   var number = validator.number;
   var any = validator.any;
   var all = validator.all;
+  var between = validator.between;
 
   describe('Validating basic data types', function() {
 
@@ -307,5 +308,103 @@ describe('Validator Spec', function() {
     });
 
   });
+
+  describe("between validator", function() {
+
+    it("should check for number which falls in between the given range", function(){
+
+      var msg = "should be between 1 and 100";
+
+      var schema = object({
+        age: between(1, 100)
+      });
+
+      var invalidData1= {
+        age: 0
+      };
+
+      var invalidData2 = {
+        age: 123
+      };
+
+      var data1 = {
+        age: 1
+      };
+
+      var data2 = {
+        age: 10
+      };
+
+      var data3 = {
+        age: 100
+      };
+
+      expect(validator.validate(schema, invalidData1)).toEqual({
+        error_age: msg
+      });
+
+      expect(validator.validate(schema, invalidData2)).toEqual({
+        error_age: msg
+      });
+
+      expect(validator.validate(schema, data1)).toEqual({});
+      expect(validator.validate(schema, data2)).toEqual({});
+      expect(validator.validate(schema, data3)).toEqual({});
+
+    });
+
+    it("should check range of values yield by property function", function(){
+
+      var msg = "should be between 1 and 10";
+
+      var p = {
+        property : function() {}
+      };
+
+      spyOn(p, "property").and.returnValue(5);
+
+      var schema = object({
+        age: between(1, 10, p.property)
+      });
+
+      var data = {
+        age: 10
+      };
+
+      expect(validator.validate(schema, data)).toEqual({});
+      expect(p.property).toHaveBeenCalledWith(10, data);
+      expect(p.property).toHaveBeenCalledTimes(2);
+    });
+
+  });
+
+  describe("length validators", function(){
+
+    it("should check length", function() {
+      var result = {};
+      spyOn(validator, "between").and.returnValue(result);
+
+      expect(validator.length(10)).toBe(result);
+      expect(validator.between).toHaveBeenCalledWith(10, 10, jasmine.any(Function));
+    });
+
+    it("should check minLength", function() {
+      var result = {};
+      spyOn(validator, "between").and.returnValue(result);
+
+      expect(validator.minLength(10)).toBe(result);
+      expect(validator.between).toHaveBeenCalledWith(10, Infinity, jasmine.any(Function));
+    });
+
+    it("should check maxLength", function() {
+      var result = {};
+      spyOn(validator, "between").and.returnValue(result);
+
+      expect(validator.maxLength(10)).toBe(result);
+      expect(validator.between).toHaveBeenCalledWith(0, 10, jasmine.any(Function));
+    });
+
+  });
+
 
 });
