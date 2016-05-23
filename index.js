@@ -18,7 +18,7 @@ validator._getTime = function getTime(date) {
 // Validation functions
 ['string', 'number', 'boolean'].forEach(function(dataType) {
   validator[dataType] = function(key, value) {
-    if (typeof value !== dataType || value === null || value === undefined || value.toString().trim().length < 1)
+    if (typeof value !== dataType || value === null || value === undefined)
       return "must be a "+ dataType;
   };
 });
