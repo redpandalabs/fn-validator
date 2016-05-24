@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RedPandaInnovationLabs/fn-validator.git"
+    "url": "git+https://github.com/RedPandaLabs/fn-validator.git"
   },
   "keywords": [
     "schema",
@@ -17,9 +17,9 @@
   "author": "Piyush Katariya, corporate.piyush@gmail.com",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/RedPandaInnovationLabs/fn-validator/issues"
+    "url": "https://github.com/RedPandaLabs/fn-validator/issues"
   },
-  "homepage": "https://github.com/RedPandaInnovationLabs/fn-validator#readme",
+  "homepage": "https://github.com/RedPandaLabs/fn-validator#readme",
   "devDependencies": {
     "jasmine": "2.4.1"
   }
