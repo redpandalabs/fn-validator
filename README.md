@@ -10,9 +10,13 @@ However, writing business logic in NodeJS, or even writing a browser based appli
 Now there are some JSON schema standards and libraries out there which help you do that but they lack the extensibility in terms of defining new kind of validators or composing them to make hybrid validators.
 
 This library aims at
+
 1. Defining flexible and tiny architecture to plug in any kind of reusable custom validator.
+
 2. Using JavaScript as functional language without side effects. All validators are pure functions.
+
 3. Providing facility to compose different kind of validators along with custom error messages.
+ 
 4. Being predictable with full test coverage.
 
 --------
