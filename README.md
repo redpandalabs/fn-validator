@@ -1,6 +1,20 @@
 # fn-validator
 Extendable and Isomorphic functional schema validator for browser and Node.js
 
+-------
+# Motivation
+
+JavaScript being dynamic and weakly typed language, does not support anything which can help you validate the JSON object structure.
+
+However, writing business logic in NodeJS, or even writing a browser based application requires strong type object contract interface to validate the data coming from or going to external sources and acknowledge the error messages in case of mismatch.
+Now there are some JSON schema standards and libraries out there which help you do that but they lack the extensibility in terms of defining new kind of validators or composing them to make hybrid validators.
+
+This library aims at
+1. Defining flexible and tiny architecture to plug in any kind of reusable custom validator.
+2. Using JavaScript as functional language without side effects. All validators are pure functions.
+3. Providing facility to compose different kind of validators along with custom error messages.
+4. Being predictable with full test coverage.
+
 --------
 # Install
 
