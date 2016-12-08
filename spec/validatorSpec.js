@@ -494,6 +494,27 @@ describe('Validator Spec', function() {
             });
         });
 
+        it("should validate array of objects", function() {
+            var message = "Please provide all numbers";
+            var schema = object({
+                choices: arrayOf(object({
+                    rating: number
+                }))
+            });
+            var invalidData = {
+                "choices": [{
+                    rating: 3
+                }, {
+                    rating: "three"
+                }]
+            };
+            expect(validator.validate(schema, invalidData)).toEqual({
+                choices: [{}, {
+                    error_rating: "must be a number"
+                }]
+            });
+        });
+
     });
 
 });

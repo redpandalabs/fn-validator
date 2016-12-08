@@ -107,7 +107,7 @@ validator.enum = function(allowedValues) {
 };
 
 validator.object = function(schemaObj) {
-    return function(objKey, objValue) {
+    return function object(objKey, objValue) {
         var result = {};
         if (objValue === null || objValue === undefined || !(objValue instanceof Object && objValue.constructor == Object.prototype.constructor))
             return {
@@ -143,10 +143,18 @@ validator.arrayOf = function(dataTypeValidator, msg) {
     return function(key, value) {
         if (!(value instanceof Array))
             return "must be an Array"
-        for (var i = 0; i < value.length; i++) {
-            if (typeof dataTypeValidator(null, value[i]) === 'string') // in case of error
-                return msg ? msg : "must be an Array"
+
+        if(dataTypeValidator.name !== "object") {
+            for (var i = 0; i < value.length; i++) {
+                if (typeof dataTypeValidator(null, value[i]) === 'string') // in case of error
+                    return msg ? msg : "must be an Array"
+            }
+        } else {
+            return value.map(function(v){
+                return dataTypeValidator("main", v);
+            })
         }
+
     };
 }
 
