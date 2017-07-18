@@ -60,7 +60,7 @@ describe('Validator Spec', function() {
                 error_name: "must be a string"
             });
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -81,7 +81,7 @@ describe('Validator Spec', function() {
                 error_isCrazy: "must be a boolean"
             });
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -102,7 +102,7 @@ describe('Validator Spec', function() {
                 error_salary: "must be a number"
             });
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -128,7 +128,7 @@ describe('Validator Spec', function() {
                 age: 10
             };
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -141,7 +141,7 @@ describe('Validator Spec', function() {
                 salary: 10000
             };
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -184,7 +184,7 @@ describe('Validator Spec', function() {
             error: "Allowed properties are [salary]"
         });
 
-        expect(validator.validate(schema, data)).toEqual({});
+        expect(validator.validate(schema, data)).toEqual(true);
 
     });
 
@@ -251,8 +251,8 @@ describe('Validator Spec', function() {
                 error_salary: msg
             });
 
-            expect(validator.validate(schema, data1)).toEqual({});
-            expect(validator.validate(schema, data2)).toEqual({});
+            expect(validator.validate(schema, data1)).toEqual(true);
+            expect(validator.validate(schema, data2)).toEqual(true);
 
         });
 
@@ -288,7 +288,7 @@ describe('Validator Spec', function() {
                 error_mobile: msg
             });
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
 
         });
 
@@ -332,9 +332,9 @@ describe('Validator Spec', function() {
                 error_age: msg
             });
 
-            expect(validator.validate(schema, data1)).toEqual({});
-            expect(validator.validate(schema, data2)).toEqual({});
-            expect(validator.validate(schema, data3)).toEqual({});
+            expect(validator.validate(schema, data1)).toEqual(true);
+            expect(validator.validate(schema, data2)).toEqual(true);
+            expect(validator.validate(schema, data3)).toEqual(true);
 
         });
 
@@ -356,7 +356,7 @@ describe('Validator Spec', function() {
                 age: 10
             };
 
-            expect(validator.validate(schema, data)).toEqual({});
+            expect(validator.validate(schema, data)).toEqual(true);
             expect(p.property).toHaveBeenCalledWith(10, data);
             expect(p.property).toHaveBeenCalledTimes(2);
         });
@@ -434,7 +434,7 @@ describe('Validator Spec', function() {
             [10, 20, 30].forEach(function(age) {
                 expect(validator.validate(schema, {
                     age: age
-                })).toEqual({});
+                })).toEqual(true);
             });
 
             expect(validator.validate(schema, invalidData)).toEqual({
@@ -462,7 +462,7 @@ describe('Validator Spec', function() {
             expect(validator.validate(schema, invalidData)).toEqual({
                 error_movies: "must be an Array"
             });
-            expect(validator.validate(schema, validData)).toEqual({});
+            expect(validator.validate(schema, validData)).toEqual(true);
         });
 
         it("should validate array of data types", function() {
@@ -478,7 +478,7 @@ describe('Validator Spec', function() {
             expect(validator.validate(schema, invalidData)).toEqual({
                 error_choices: "must be an Array"
             });
-            expect(validator.validate(schema, validData)).toEqual({});
+            expect(validator.validate(schema, validData)).toEqual(true);
         });
 
         it("should validate array of data types along with custom message", function() {
