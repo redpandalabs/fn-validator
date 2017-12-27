@@ -31,7 +31,7 @@ This library aims at
 ```
 var v = require("fn-validator");
 
-var schema = v.object({
+var userSchema = v.object({
    firstName : v.string,
    lastName : v.all([v.string, v.minLength(2), v.maxLength(30)]),
    gender : v.enum(["Male", "Female", "Other"]),
@@ -40,6 +40,11 @@ var schema = v.object({
    graduationDate : v.before(new Date("2000-01-01")),
    single : v.boolean,
    hasGirlfriend : v.optional(v.boolean)
+ })
+
+ var schema = v.object({
+     orgName : v.string
+     users : v.arrayOf(userSchema)
  })
 
 var isValid = v.validate(schema, objectToBeValidated);
