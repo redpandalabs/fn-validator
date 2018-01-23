@@ -38,6 +38,10 @@ validator.email = validator.regex(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{
 
 validator.indianMobile = validator.regex(/^[789]\d{9}$/);
 
+validator.alphaNumericString = validator.regex(/^[a-zA-Z0-9 ]{0,128}$/);
+
+validator.rstring = validator.regex(/^[a-zA-Z0-9 .,'!()@?-]{1,128}$/);
+
 validator.optional = function (func) {
     if (isNotFunction(func))
         throw new Error('Optional validator accepts a validator function');
@@ -162,12 +166,12 @@ validator.arrayOf = function (dataTypeValidator, msg) {
 
 function isObjectEmpty(obj) {
     if (obj && obj instanceof Object && obj.constructor == Object.prototype.constructor) {
-        if (Object.keys(obj) === 0)
+        var keys = Object.keys(obj)
+        if (keys.length === 0)
             return true
-        for (var key in obj) {
-            var value = obj[key];
-            return isObjectEmpty(value)
-        }
+        return keys.every(function (key) {
+            return isObjectEmpty(obj[key])
+        })
     } else if (obj instanceof Array && obj.length > 0) {
         return obj.every(function (element) {
             return isObjectEmpty(element)
@@ -175,7 +179,6 @@ function isObjectEmpty(obj) {
     } else {
         return false;
     }
-    return true;
 }
 
 // Validation helper

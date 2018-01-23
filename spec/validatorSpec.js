@@ -16,6 +16,8 @@ describe('Validator Spec', function () {
     var enums = validator.enum
     var array = validator.array
     var arrayOf = validator.arrayOf
+    var rstring = validator.rstring
+    var alphaNumericString = validator.alphaNumericString
 
     describe('Validating basic data types', function () {
 
@@ -58,6 +60,48 @@ describe('Validator Spec', function () {
 
             expect(validator.validate(schema, invalidData)).toEqual({
                 error_name: "must be a string"
+            })
+
+            expect(validator.validate(schema, data)).toEqual(true)
+
+        })
+
+        it('should validate restricted string data type', function () {
+            var schema = object({
+                name: rstring
+            })
+
+            var invalidData = {
+                name: "$$$function"
+            }
+
+            var data = {
+                name: "Hey, Do you know why Johny's sister 13 died ? I guess @lex knows-"
+            }
+
+            expect(validator.validate(schema, invalidData)).toEqual({
+                error_name: "invalid pattern"
+            })
+
+            expect(validator.validate(schema, data)).toEqual(true)
+
+        })
+
+        it('should validate alpha numeric string data type', function () {
+            var schema = object({
+                name: alphaNumericString
+            })
+
+            var invalidData = {
+                name: "Hi, Johny how are you ?"
+            }
+
+            var data = {
+                name: "Johny 123"
+            }
+
+            expect(validator.validate(schema, invalidData)).toEqual({
+                error_name: "invalid pattern"
             })
 
             expect(validator.validate(schema, data)).toEqual(true)
@@ -211,6 +255,80 @@ describe('Validator Spec', function () {
             expect(validator.validate(schema, invalidData)).toEqual({
                 name: {
                     error_lastName: "must be a string"
+                }
+            })
+
+        })
+
+        it('should validate nested JSON objects', function () {
+
+            var schema = object({
+                oldName: object({
+                    firstName: string,
+                    lastName: string
+                }),
+                name: object({
+                    firstName: string,
+                    lastName: string
+                })
+
+            })
+
+            var invalidData = {
+                oldName: {
+                    firstName: 'string',
+                    lastName: 'string'
+                },
+                name: {
+                    firstName: "Piyush",
+                    lastName: 4
+                }
+            }
+            expect(validator.validate(schema, invalidData)).toEqual({
+                oldName: {},
+                name: {
+                    error_lastName: 'must be a string'
+                }
+            })
+
+        })
+
+        it('should validate nested JSON objects', function () {
+
+            var schema = object({
+                oldName: object({
+                    firstName: string,
+                    lastName: object({
+                        isFamilyName: boolean,
+                        name: string
+                    })
+                }),
+                name: object({
+                    firstName: string,
+                    lastName: string
+                })
+
+            })
+
+            var invalidData = {
+                oldName: {
+                    firstName: 'string',
+                    lastName: 'string'
+                },
+                name: {
+                    firstName: "Piyush",
+                    lastName: 4
+                }
+            }
+
+            expect(validator.validate(schema, invalidData)).toEqual({
+                oldName: {
+                    lastName: {
+                        error: 'must be an object'
+                    }
+                },
+                name: {
+                    error_lastName: 'must be a string'
                 }
             })
 
